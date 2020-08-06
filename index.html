@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    window.onload=function(){
+        var ajaxurl =  './getwxinfo.php';
+        var query = new Object();
+        var urll = location.href.split('#')[0];
+        query.urll = $.trim(urll);
+        query.post_type = "json";
+        $.ajax({
+            url: ajaxurl,data:query,type: "POST",dataType: "json",
+            success: function(ress){
+                wx.config({ appId: ress.appid,timestamp: ress.timestamp, nonceStr: ress.nonceStr, signature: ress.signature,jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','getNetworkType'] });
+            },error:function(){
+                console.log("通信失败");
+            }
+        });
+        wx.ready(function () {
+            wx.checkJsApi({ jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','getNetworkType'] });
+            wx.onMenuShareTimeline({
+                title: '当贝市场&智能电视网 2017年度最佳评选',
+                desc: '由当贝市场和智能电视网评选出2017年度最佳电视、2017年度最佳投影、2017年度最佳盒子、2017年度最佳TV软件、2017年度众测之星产品，共五大类别。',
+                link: 'https://n.znds.com/2017/',
+                imgUrl: 'https://news.znds.com/wap/2017/images/fengmian.png',
+            });
+            wx.onMenuShareAppMessage({
+                title: '当贝市场&智能电视网 2017年度最佳评选',
+                desc: '由当贝市场和智能电视网评选出2017年度最佳电视、2017年度最佳投影、2017年度最佳盒子、2017年度最佳TV软件、2017年度众测之星产品，共五大类别。',
+                link: 'https://n.znds.com/2017/',
+                imgUrl: 'https://news.znds.com/wap/2017/images/fengmian.png',
+            });
+        });
+    }
+</script>
